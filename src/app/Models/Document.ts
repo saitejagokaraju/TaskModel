@@ -1,6 +1,6 @@
-export interface Document {
-    Id: number;
-    DepartmentId: number;
-    DepartmentName: string;
-    DocumentName: string;
+export class Document {
+    Id!: number;
+    DepartmentId!: number;
+    DepartmentName!: string;
+    DocumentName!: string;
   }

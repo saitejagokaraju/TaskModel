@@ -1,4 +1,4 @@
-export interface Department {
-    Id: number;
-    DepartmentName: string;
+export class Department {
+    Id!: number;
+    DepartmentName!: string;
   }
