@@ -13,7 +13,6 @@ import { Document } from './Models/Document';
 })
 export class AppComponent implements OnInit {
   CommonEnums = CommonEnums;
-  
   form!: FormGroup;
   formSubmitted = false;
   departments: Department[] = [];
@@ -21,7 +20,7 @@ export class AppComponent implements OnInit {
   document: Document = { Id: 0, DepartmentId: 0, DepartmentName: '', DocumentName: '' };
   AlreadyExistmessage = '';
   SuccessfullyAddedMessage = '';
-  ModalExistedMessage = '';
+  ModalExistedMessage='';
   ModalSuccessMessage = '';
 
   constructor(private http: HttpClient, private fb: FormBuilder, private documentService: DocumentService) { }
@@ -36,14 +35,14 @@ export class AppComponent implements OnInit {
 
   fetchData(): void {
     try {
-      this.documentService.getDepartments().subscribe(
-        departments => {
+      this.documentService.getDepartments().subscribe({
+        next: departments => {
           this.departments = departments;
         },
-        error => {
+        error: error => {
           console.error('Error fetching departments:', error);
         }
-      );
+    });
 
       this.documentService.getDocuments().subscribe({
         next: documents => {
@@ -114,14 +113,12 @@ export class AppComponent implements OnInit {
 
   openEditModal(document: Document): void {
     try {
-
       this.document = { ...document };
       const selectedDepartmentName=this.document.DepartmentName || ''
       const documentName = this.document.DocumentName || '';
       const selectedDepartment = this.departments.find(dep => dep.DepartmentName === selectedDepartmentName);
       this.form.get('department')?.setValue(selectedDepartment ? selectedDepartment.Id : '');
       this.form.get('documentName')?.setValue(documentName);
-
       this.ModalExistedMessage = '';
       this.ModalSuccessMessage = '';
       this.AlreadyExistmessage='';
